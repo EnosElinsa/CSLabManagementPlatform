@@ -57,7 +57,7 @@ public class LabBorrowRequest implements Serializable {
     /**
      * The id of the requested lab.
      */
-    private Integer labId;
+    private String labId;
 
     /**
      * The date of the lab borrowing request.
@@ -65,7 +65,7 @@ public class LabBorrowRequest implements Serializable {
     private LocalDate date;
 
     /**
-     * The status of the lab borrowing request.
+     * The status of the lab borrowing request, including '未审核', '通过', '驳回' and '使用完毕'.
      */
     private String status;
 

@@ -31,6 +31,10 @@ public class Result {
         return new Result("500", "操作失败", null);
     }
 
+    public static Result error(String message) {
+        return new Result("500", message, null);
+    }
+
     public static Result error(String code, String message) {
         return new Result(code, message, null);
     }

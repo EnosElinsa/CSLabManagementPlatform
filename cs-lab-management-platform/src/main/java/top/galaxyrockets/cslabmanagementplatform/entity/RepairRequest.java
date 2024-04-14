@@ -41,7 +41,7 @@ public class RepairRequest implements Serializable {
     /**
      * The id of the lab that has the equipment to be repaired.
      */
-    private Integer labId;
+    private String labId;
 
     /**
      * The description of the malfunction of the equipment  with the maximum length of 256 characters.

@@ -2,7 +2,6 @@ package top.galaxyrockets.cslabmanagementplatform.entity;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -29,8 +28,8 @@ public class Lab implements Serializable {
     /**
      * The unique primary key, denoting the actual location of the lab in the building.
      */
-    @TableId(value = "lab_id", type = IdType.AUTO)
-    private Integer labId;
+    @TableId(value = "lab_id")
+    private String labId;
 
     /**
      * The name of the lab with maximum length of 32 characters.

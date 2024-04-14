@@ -40,7 +40,6 @@ public class TokenUtil {
                   .sign(Algorithm.HMAC256(password));
     }
 
-    @SuppressWarnings("null")
     public static User getCurrentUser() {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

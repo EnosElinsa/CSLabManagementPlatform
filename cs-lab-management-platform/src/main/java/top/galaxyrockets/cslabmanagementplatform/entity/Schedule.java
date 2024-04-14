@@ -45,7 +45,7 @@ public class Schedule implements Serializable {
     /**
      * The id of the scheduled lab.
      */
-    private Integer labId;
+    private String labId;
 
     /**
      * The scheduled start week.
