@@ -9,8 +9,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.date.DateUtil;
 
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -42,6 +42,7 @@ public class TokenUtil {
 
     public static User getCurrentUser() {
         try {
+            @SuppressWarnings("null")
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String token = request.getHeader("token");
             if (StrUtil.isNotBlank(token)) {

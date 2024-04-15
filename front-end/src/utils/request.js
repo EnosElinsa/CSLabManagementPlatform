@@ -11,8 +11,8 @@ const request = axios.create({
 // 可以自请求发送前对请求做一些处理
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
-    let admin = JSON.parse(localStorage.getItem('admin') || '{}')
-    config.headers['token'] = admin.token
+    let user = JSON.parse(localStorage.getItem('user') || '{}')
+    config.headers['token'] = user.token
     return config
 }, error => {
     console.error('request error: ' + error)
@@ -33,8 +33,8 @@ request.interceptors.response.use(
             res = res ? JSON.parse(res) : res
         }
         // 当权限验证不通过的时候给出提示
-        if (res.code === 401) {
-            ElMessage.error(res.msg);
+        if (res.code === "401") {
+            ElMessage.error(res.message);
             router.push("/login")
         }
         return res;

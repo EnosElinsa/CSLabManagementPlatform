@@ -7,9 +7,21 @@
           <div style="font-weight: bold; font-size: 24px; margin-left: 5px">计算机系实验室管理平台</div>
         </div>
       </div>
-      <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
-        <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="" style="width: 40px; height: 40px">
-        <span style="margin-left: 5px">管理员</span>
+
+      <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end;">
+        <el-dropdown style="margin-right: 15px" placement="bottom">
+          <div style="display: flex; align-items: center; cursor: default;">
+            <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="" style="width: 40px; height: 40px">
+            <span style="margin-left: 5px">{{ user.fullName }}</span>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click.native="router.push('/person')">个人信息</el-dropdown-item>
+              <el-dropdown-item @click.native="router.push('/password')">修改密码</el-dropdown-item>
+              <el-dropdown-item @click.native="logout">退出系统</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </div>
 
@@ -19,7 +31,7 @@
             router
             style="border: none"
             :default-active="$route.path"
-            :default-openeds="['/home', '2', '3']"
+            :default-openeds="['/home', '2', '3', '4']"
         >
           <el-menu-item index="/home">
             <el-icon><HomeFilled /></el-icon>
@@ -27,40 +39,49 @@
           </el-menu-item>
           <el-sub-menu index="2">
             <template #title>
+              <el-icon><Files /></el-icon>
+              <span>平台信息管理</span>
+            </template>
+            <el-menu-item index="/semester">
+              <el-icon><SetUp /></el-icon>
+              <span>学期管理</span>
+            </el-menu-item>
+          </el-sub-menu>
+
+          <el-sub-menu index="3">
+            <template #title>
               <el-icon><User /></el-icon>
               <span>用户管理</span>
             </template>
-            <el-menu-item index="/user">
+            <el-menu-item index="/technician">
               <el-icon><Postcard /></el-icon>
-              <span>用户信息</span>
+              <span>实验员管理</span>
             </el-menu-item>
-            <el-menu-item index="/activation">
-              <el-icon><Key /></el-icon>
-              <span>用户激活</span>
+            <el-menu-item index="/teacher">
+              <el-icon><Postcard /></el-icon>
+              <span>教师管理</span>
+            </el-menu-item>
+            <el-menu-item index="/student">
+              <el-icon><Postcard /></el-icon>
+              <span>学生管理</span>
             </el-menu-item>
           </el-sub-menu>
-          <el-sub-menu index="3">
+
+          <el-sub-menu index="4">
             <template #title>
-              <el-icon><Files /></el-icon>
-              <span>题库管理</span>
+              <el-icon><Monitor /></el-icon>
+              <span>实验室管理</span>
             </template>
-            <el-menu-item index="/book">
-              <el-icon><Memo /></el-icon>
-              <span>书本管理</span>
+            <el-menu-item index="/schedule">
+              <el-icon><DataBoard /></el-icon>
+              <span>实验排课</span>
             </el-menu-item>
-            <el-menu-item index="/chapter">
-              <el-icon><Document /></el-icon>
-              <span>书本章节管理</span>
-            </el-menu-item>
-            <el-menu-item index="/question">
-              <el-icon><Tickets /></el-icon>
-              <span>题目管理</span>
-            </el-menu-item>
-            <el-menu-item index="/feedback">
-              <el-icon><ChatSquare /></el-icon>
-              <span>题目反馈</span>
+            <el-menu-item index="/borrow">
+              <el-icon><Check /></el-icon>
+              <span>实验室借用审批</span>
             </el-menu-item>
           </el-sub-menu>
+    
           <el-menu-item index="login" @click="logout">
             <el-icon><SwitchButton /></el-icon>
             <span>退出系统</span>
@@ -91,10 +112,13 @@ const year = new Date().getFullYear()
 const author = 'Enos'					
 const record = '粤ICP备2023094696号'
 
+const user = JSON.parse(localStorage.getItem('user') || '{}')
+
 const logout = () => {
   localStorage.removeItem('user')
   router.push('/login')
 }
+
 </script>
 
 <style scoped>

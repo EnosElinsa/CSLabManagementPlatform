@@ -34,7 +34,7 @@ public class Semester implements Serializable {
     private Integer semesterId;
 
     /**
-     * The actual semester. 	An semester is in the format like '2023-2024-1', with '1' denoting 'Autumn' and '2' denoting 'Spring'.
+     * The actual semester. An semester is in the format like '2023-2024-1', with '1' denoting 'Autumn' and '2' denoting 'Spring'.
      */
     private String semester;
 

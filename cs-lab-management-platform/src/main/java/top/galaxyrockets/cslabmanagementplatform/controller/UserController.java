@@ -41,6 +41,13 @@ public class UserController {
         return Result.success(userService.page(current, size, user));
     } 
 
+    @GetMapping("/pageStudents")
+    public Result pageStudents(@RequestParam Integer current,
+                               @RequestParam Integer size,
+                                User user) {
+        return Result.success(userService.pageStudents(current, size, user));
+    }
+
     @PostMapping("/save")
     public Result save(@RequestBody User user) {
         if (userService.save(user)) {
@@ -58,6 +65,21 @@ public class UserController {
 
         return Result.error();
     }
+
+    @PutMapping("/resetPassword/{userId}")
+    public Result resetPassword(@PathVariable Integer userId) {
+        User user = userService.getById(userId);
+        if (user == null) {
+            return Result.error();
+        }
+        user.setPassword("cslab@scau");
+        if (userService.updateById(user)) {
+            return Result.success();
+        }
+
+        return Result.error();
+    }
+    
 
     @DeleteMapping("/removeById/{userId}")
     public Result removeById(@PathVariable Integer userId) {

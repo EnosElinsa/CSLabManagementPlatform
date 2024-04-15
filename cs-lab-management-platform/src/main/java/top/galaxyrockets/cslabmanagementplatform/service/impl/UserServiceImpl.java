@@ -33,7 +33,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ServiceException("账号或密码错误");
         }
 
-        String token = TokenUtil.generateToken(userDb.getUserId().toString(), userDb.getUsername());
+        String token = TokenUtil.generateToken(userDb.getUserId().toString(), userDb.getPassword());
         userDb.setToken(token);
 
         return userDb;
@@ -48,10 +48,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public Page<User> page(Integer current, Integer size, User user) {
         var wrapper = new LambdaQueryWrapper<User>();
         wrapper.orderByDesc(User::getUserId)
-               .like(StrUtil.isNotBlank(user.getRole()), User::getRole, user.getRole())
+               .eq(StrUtil.isNotBlank(user.getRole()), User::getRole, user.getRole())
                .like(StrUtil.isNotBlank(user.getUsername()), User::getUsername, user.getUsername())
                .like(StrUtil.isNotBlank(user.getFullName()), User::getFullName, user.getFullName())
-               .like(StrUtil.isNotBlank(user.getTitle()), User::getTitle, user.getTitle())
+               .like(StrUtil.isNotBlank(user.getTitle()), User::getTitle, user.getTitle());
+        return page(new Page<>(current, size), wrapper);
+    }   
+
+    @Override
+    public Page<User> pageStudents(Integer current, Integer size, User user) {
+        var wrapper = new LambdaQueryWrapper<User>();
+        wrapper.orderByDesc(User::getUserId)
+               .eq(StrUtil.isNotBlank(user.getRole()), User::getRole, user.getRole())
+               .like(StrUtil.isNotBlank(user.getUsername()), User::getUsername, user.getUsername())
+               .like(StrUtil.isNotBlank(user.getFullName()), User::getFullName, user.getFullName())
                .like(StrUtil.isNotBlank(user.getMajor()), User::getMajor, user.getMajor())
                .like(StrUtil.isNotBlank(user.getStudentClass()), User::getStudentClass, user.getStudentClass());
         return page(new Page<>(current, size), wrapper);
