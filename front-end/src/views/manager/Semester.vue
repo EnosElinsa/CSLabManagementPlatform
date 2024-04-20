@@ -15,13 +15,13 @@
       </div>
 
       <el-table :data="data.records" :header-cell-style="{background:'aliceblue'}" @selection-change="handleSelectionChange"
-        :row-class-name="highlightRow">
+        :row-class-name="highlightRow" table-layout="auto">
         <el-table-column type="selection" width="55" align="center" />
 
         <el-table-column label="编号" prop="semesterId" align="center" width=80% sortable />
         <el-table-column label="学期" prop="semester" align="center" sortable />
         <el-table-column label="周数" prop="weekCount" align="center" sortable />
-        <el-table-column label="是否当前学期" prop="isCurrentSemester" align="center">
+        <el-table-column label="是否当前学期" prop="isCurrentSemester" align="center" sortable >
           <template #default="scope">{{ scope.row.isCurrentSemester ? '是' : '否' }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="160">

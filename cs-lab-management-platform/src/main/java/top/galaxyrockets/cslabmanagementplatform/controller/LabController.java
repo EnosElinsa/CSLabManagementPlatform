@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.annotation.Resource;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
 import top.galaxyrockets.cslabmanagementplatform.entity.Lab;
@@ -27,6 +30,17 @@ public class LabController {
 
     @Resource
     private ILabService labService;
+
+    @GetMapping("/list")
+    public Result list() {
+        return Result.success(labService.list());
+    }
+
+    @GetMapping("/listByCategory/{category}")
+    public Result listByCategory(@PathVariable String category) {
+        var wrapper = Wrappers.lambdaQuery(Lab.class).eq(Lab::getCategory, category);
+        return Result.success(labService.list(wrapper));
+    }
 
     @PostMapping("/save")
     public Result save(@RequestBody Lab lab) {

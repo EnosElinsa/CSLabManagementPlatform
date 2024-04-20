@@ -73,7 +73,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         wrapper.eq(User::getUsername, user.getUsername());
         User userDb = getOne(wrapper);
         if (userDb != null && !userDb.getUserId().equals(user.getUserId())) {
-            throw new ServiceException("用户名已存在");
+            throw new ServiceException("相同的工号或学号已存在");
         }
         return super.updateById(user);
      }
@@ -83,7 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         var wrapper = new LambdaQueryWrapper<User>();
         wrapper.eq(User::getUsername, user.getUsername());
         if (getOne(wrapper) != null) {
-            throw new ServiceException("用户名已存在");
+            throw new ServiceException("相同的工号或学号已存在");
         }
         return super.save(user);
     }

@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -60,8 +62,14 @@ public class LabBorrowRequest implements Serializable {
     private String labId;
 
     /**
+     * The reason for the lab borrowing request with the maximum length of 128 characters.
+     */
+    private String reason;
+
+    /**
      * The date of the lab borrowing request.
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     /**

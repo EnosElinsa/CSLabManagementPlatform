@@ -3,6 +3,11 @@
 
     <div class="card" style="line-height: 30px">
       <div>欢迎您，<span style="color: dodgerblue;">{{ user.fullName }}</span> 祝您今天过得开心！</div>
+      <div style="font-weight: bold; text-align: center; margin-top: 10px;"> 排课表 </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 10px">
+      
     </div>
 
   </div>

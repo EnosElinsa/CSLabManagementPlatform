@@ -31,13 +31,13 @@
             router
             style="border: none"
             :default-active="$route.path"
-            :default-openeds="['/home', '2', '3', '4']"
+            :default-openeds="['/home', '2', '3', '4', '5', '6', '7']"
         >
           <el-menu-item index="/home">
             <el-icon><HomeFilled /></el-icon>
             <span>系统首页</span>
           </el-menu-item>
-          <el-sub-menu index="2">
+          <el-sub-menu index="2" v-if="user.role === '系统管理员'">
             <template #title>
               <el-icon><Files /></el-icon>
               <span>平台信息管理</span>
@@ -48,7 +48,7 @@
             </el-menu-item>
           </el-sub-menu>
 
-          <el-sub-menu index="3">
+          <el-sub-menu index="3" v-if="user.role === '系统管理员'">
             <template #title>
               <el-icon><User /></el-icon>
               <span>用户管理</span>
@@ -67,18 +67,55 @@
             </el-menu-item>
           </el-sub-menu>
 
-          <el-sub-menu index="4">
+          <el-sub-menu index="4" v-if="user.role === '系统管理员'">
             <template #title>
               <el-icon><Monitor /></el-icon>
               <span>实验室管理</span>
             </template>
             <el-menu-item index="/schedule">
               <el-icon><DataBoard /></el-icon>
-              <span>实验排课</span>
+              <span>实验课排课</span>
             </el-menu-item>
             <el-menu-item index="/borrow">
-              <el-icon><Check /></el-icon>
+              <el-icon><Document /></el-icon>
               <span>实验室借用审批</span>
+            </el-menu-item>
+          </el-sub-menu>
+
+          <el-sub-menu index="5" v-if="user.role === '教师'">
+            <template #title>
+              <el-icon><User /></el-icon>
+              <span>教师功能</span>
+            </template>
+            <el-menu-item index="/scheduleRequest">
+              <el-icon><Tickets /></el-icon>
+              <span>实验课排课申请</span>
+            </el-menu-item>
+            <el-menu-item index="/repairRequest">
+              <el-icon><Phone /></el-icon>
+              <span>实验室设备报修</span>
+            </el-menu-item>
+          </el-sub-menu>
+
+          <el-sub-menu index="6" v-if="user.role === '实验员'">
+            <template #title>
+              <el-icon><User /></el-icon>
+              <span>实验员功能</span>
+            </template>
+            <el-menu-item index="/repair">
+              <el-icon><Box /></el-icon>
+              <span>设备报修处理</span>
+            </el-menu-item>
+          </el-sub-menu>
+
+          <el-sub-menu index="7" v-if="user.role === '学生'">
+            <template #title>
+              <el-icon><User /></el-icon>
+              <span>学生功能</span>
+            </template>
+            <el-menu-item index="/borrowRequest">
+              <el-icon><Tickets /></el-icon>
+              <span>实验室借用申请</span>
             </el-menu-item>
           </el-sub-menu>
     

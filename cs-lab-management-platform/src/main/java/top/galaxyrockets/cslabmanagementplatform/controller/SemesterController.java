@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
 import top.galaxyrockets.cslabmanagementplatform.entity.Semester;
 import top.galaxyrockets.cslabmanagementplatform.service.ISemesterService;
@@ -28,6 +30,12 @@ public class SemesterController {
 
     @Resource
     private ISemesterService semesterService;
+
+    @GetMapping("/list")
+    public Result list() {
+        var wrapper = Wrappers.lambdaQuery(Semester.class).orderByDesc(Semester::getSemester);
+        return Result.success(semesterService.list(wrapper));
+    }
 
     @GetMapping("/getCurrentSemester")
     public Result getCurrentSemester() {

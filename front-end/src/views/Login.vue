@@ -90,6 +90,11 @@ const login = () => {
                     localStorage.setItem('user', JSON.stringify(res.data))
                     localStorage.setItem('loginFailed', false)
                     ElMessage.success('登录成功')
+
+                    request.get('/semester/getCurrentSemester').then(res => {
+                        localStorage.setItem('semester', JSON.stringify(res.data))
+                    })
+
                     router.push('/home')
                 } else {
                     localStorage.setItem('loginFailed', true)

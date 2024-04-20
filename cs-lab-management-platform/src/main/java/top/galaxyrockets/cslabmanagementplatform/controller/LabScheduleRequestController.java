@@ -4,16 +4,19 @@ import java.util.List;
 
 import jakarta.annotation.Resource;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
 import top.galaxyrockets.cslabmanagementplatform.entity.LabScheduleRequest;
+import top.galaxyrockets.cslabmanagementplatform.vo.LabScheduleRequestVo;
 import top.galaxyrockets.cslabmanagementplatform.service.ILabScheduleRequestService;
 
 /**
@@ -26,6 +29,13 @@ public class LabScheduleRequestController {
 
     @Resource
     private ILabScheduleRequestService labScheduleRequestService;
+
+    @GetMapping("/page")
+    public Result page(@RequestParam Integer current,
+                       @RequestParam Integer size,
+                        LabScheduleRequestVo request) {
+        return Result.success(labScheduleRequestService.page(current, size, request));
+    }
 
     @PostMapping("/save")
     public Result save(@RequestBody LabScheduleRequest request) {

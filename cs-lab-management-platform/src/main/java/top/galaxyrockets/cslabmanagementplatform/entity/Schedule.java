@@ -7,8 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * <p>
@@ -63,7 +63,7 @@ public class Schedule implements Serializable {
     private String session;
 
     /**
-     * The name of the course  with the maximum length of 32 characters.
+     * The name of the course with the maximum length of 32 characters.
      */
     private String courseName;
 
