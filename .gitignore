@@ -24,3 +24,5 @@ hs_err_pid*
 replay_pid*
 
 *.yml
+cs-lab-management-platform/src/main/resources/application.yml
+cs-lab-management-platform/target/classes/application.yml
