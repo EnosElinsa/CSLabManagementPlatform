@@ -58,6 +58,11 @@ public class Schedule implements Serializable {
     private Integer endWeek;
 
     /**
+     * The scheduled day of the week, including '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' and '星期日'.
+     */
+    private String day;
+
+    /**
      * The scheduled session, including '1-2', '3-5', '6-7', '8-9', '10-12' and '13-15'.
      */
     private String session;

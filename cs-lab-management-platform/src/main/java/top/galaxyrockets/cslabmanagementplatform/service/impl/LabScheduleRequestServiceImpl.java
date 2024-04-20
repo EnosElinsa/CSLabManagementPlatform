@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.hutool.core.util.StrUtil;
 
 import top.galaxyrockets.cslabmanagementplatform.entity.User;
+import top.galaxyrockets.cslabmanagementplatform.exception.ServiceException;
 import top.galaxyrockets.cslabmanagementplatform.entity.Semester;
 import top.galaxyrockets.cslabmanagementplatform.entity.LabScheduleRequest;
 import top.galaxyrockets.cslabmanagementplatform.vo.LabScheduleRequestVo;
@@ -41,11 +42,11 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
                               .orderByDesc(LabScheduleRequest::getRequestId)
                               .eq(request.getTeacherId() != null, LabScheduleRequest::getTeacherId, request.getTeacherId())
                               .like(StrUtil.isNotBlank(request.getCourseName()), LabScheduleRequest::getCourseName, 
-                                request.getCourseName())
+                                  request.getCourseName())
                               .like(StrUtil.isNotBlank(request.getLabCategory()), LabScheduleRequest::getLabCategory, 
-                                request.getLabCategory())
+                                  request.getLabCategory())
                               .like(StrUtil.isNotBlank(request.getStudentClass()), LabScheduleRequest::getStudentClass, 
-                                request.getStudentClass());
+                                  request.getStudentClass());
         IPage<LabScheduleRequest> requestPage = page(new Page<>(current, size), wrapper);
         IPage<LabScheduleRequestVo> requestVoPage = requestPage.convert(LabScheduleRequestVo::new);
         
@@ -63,7 +64,7 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
                                        .collect(Collectors.toSet());
         var semesters = semesterMapper.selectBatchIds(semesterIds);
         var semesterMap = semesters.stream()
-                            .collect(Collectors.toMap(Semester::getSemesterId, Semester::getSemester));
+                                   .collect(Collectors.toMap(Semester::getSemesterId, Semester::getSemester));
 
         var teacherIds = requestVoPage.getRecords()
                                       .stream()
@@ -79,4 +80,51 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
         });
     }
 
+    @Override
+    public boolean save(LabScheduleRequest request) {
+        if (isConflicted(request, false)) {
+            return false;
+        }
+        return super.save(request);
+    }
+
+    @Override
+    public boolean updateById(LabScheduleRequest request) {
+        if (isConflicted(request, true)) {
+            return false;
+        }
+        return super.updateById(request);
+    }
+
+    private boolean isConflicted(LabScheduleRequest request, boolean isUpdate) {
+        var wrapper = Wrappers.lambdaQuery(LabScheduleRequest.class)
+                            .eq(LabScheduleRequest::getSemesterId, request.getSemesterId())
+                            .eq(LabScheduleRequest::getSession, request.getSession())
+                            .eq(LabScheduleRequest::getDay, request.getDay());
+
+        var potentialConflictedrequests = list(wrapper);
+        if (isUpdate) {
+            potentialConflictedrequests.removeIf(e -> e.getRequestId().equals(request.getRequestId()));
+        }
+        if (potentialConflictedrequests.isEmpty()) {
+            return false;
+        }
+
+        for (var e : potentialConflictedrequests) {
+            if (isWeeksOverlap(request, e)) {
+                throw new ServiceException("排课冲突，请检查课表是否有冲突。冲突的课程: " + e.getCourseName() + ", " + 
+                e.getStudentClass() + ", 第" + e.getStartWeek() + "-" + e.getEndWeek() + "周, "
+                + e.getDay() + ", " + "第" + e.getSession() + "节");
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isWeeksOverlap(LabScheduleRequest a, LabScheduleRequest b) {
+        if (a.getEndWeek() < b.getStartWeek() || a.getStartWeek() > b.getEndWeek()) {
+            return false;
+        }
+        return true;
+    }
 }

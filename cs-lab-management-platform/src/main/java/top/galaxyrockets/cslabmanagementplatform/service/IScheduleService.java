@@ -1,5 +1,7 @@
 package top.galaxyrockets.cslabmanagementplatform.service;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -21,5 +23,11 @@ public interface IScheduleService extends IService<Schedule> {
      * @return page of schedule
      */
     public IPage<ScheduleVo> page(Integer current, Integer size, ScheduleVo scheduleVo);
+
+    /**
+     * List all schedule VOs.
+     * @return list of schedule VOs
+     */
+    public List<ScheduleVo> listVos();
 
 }

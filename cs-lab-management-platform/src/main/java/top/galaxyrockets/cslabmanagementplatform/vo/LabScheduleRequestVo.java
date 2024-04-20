@@ -29,7 +29,9 @@ public class LabScheduleRequestVo implements Serializable{
         this.studentCount = labScheduleRequest.getStudentCount();
         this.startWeek = labScheduleRequest.getStartWeek();
         this.endWeek = labScheduleRequest.getEndWeek();
+        this.day = labScheduleRequest.getDay();
         this.session = labScheduleRequest.getSession();
+        this.labId = labScheduleRequest.getLabId();
         this.status = labScheduleRequest.getStatus();
     }
 
@@ -53,7 +55,11 @@ public class LabScheduleRequestVo implements Serializable{
 
     private Integer endWeek;
 
+    private String day;
+
     private String session;
+
+    private String labId;
 
     private String status;
 

@@ -26,6 +26,7 @@ public class ScheduleVo implements Serializable {
         this.labId = schedule.getLabId();
         this.startWeek = schedule.getStartWeek();
         this.endWeek = schedule.getEndWeek();
+        this.day = schedule.getDay();
         this.session = schedule.getSession();
         this.courseName = schedule.getCourseName();
         this.teacherId = schedule.getTeacherId();
@@ -45,6 +46,8 @@ public class ScheduleVo implements Serializable {
     private Integer startWeek;
 
     private Integer endWeek;
+
+    private String day;
 
     private String session;
 

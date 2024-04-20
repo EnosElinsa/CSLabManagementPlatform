@@ -76,7 +76,7 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="data.setSemesterVisible = false">取 消</el-button>
-            <el-button type="primary" @click="setCurrentSemester">设置</el-button>
+            <el-button type="primary" @click="setCurrentSemester">设 置</el-button>
           </span>
         </template>
 
@@ -201,7 +201,7 @@ const handleEdit = (row) => {
   
 const handleDelete = (semesterId) => {
   ElMessageBox.confirm('删除后数据无法恢复，您确定删除吗?', '删除确认', { type: 'warning' }).then(res => {
-    request.delete('/activation/removeById/' + semesterId).then(res => {
+    request.delete('/semester/removeById/' + semesterId).then(res => {
       if (res.code === "200") {
         load()
         ElMessage.success("删除成功")

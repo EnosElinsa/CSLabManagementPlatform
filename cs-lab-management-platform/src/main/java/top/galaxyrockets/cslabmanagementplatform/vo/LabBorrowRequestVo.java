@@ -28,6 +28,7 @@ public class LabBorrowRequestVo implements Serializable {
         this.semesterId = labBorrowRequest.getSemesterId();
         this.studentId = labBorrowRequest.getStudentId();
         this.week = labBorrowRequest.getWeek();
+        this.day = labBorrowRequest.getDay();
         this.session = labBorrowRequest.getSession();
         this.labId = labBorrowRequest.getLabId();
         this.reason = labBorrowRequest.getReason();
@@ -46,6 +47,8 @@ public class LabBorrowRequestVo implements Serializable {
     private String studentClass;
 
     private Integer week;
+
+    private String day;
 
     private String session;
 

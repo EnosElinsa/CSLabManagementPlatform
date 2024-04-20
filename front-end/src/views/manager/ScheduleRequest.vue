@@ -26,15 +26,17 @@
                 <el-table-column label="学生人数" prop="studentCount" align="center" />
                 <el-table-column label="开始周" prop="startWeek" align="center" />
                 <el-table-column label="结束周" prop="endWeek" align="center" />
+                <el-table-column label="星期" prop="day" align="center" />
                 <el-table-column label="节次" prop="session" align="center"  />
-                <el-table-column label="排课状态" prop="status" align="center" sortable>
+                <el-table-column label="实验室" prop="labId" align="center" />
+                <el-table-column label="排课状态" prop="status" align="center">
                     <template #default="scope">
                         <el-tag type="success" v-if="scope.row.status === '已排课'">已排课</el-tag>
                         <el-tag type="warning" v-if="scope.row.status === '未排课'">未排课</el-tag>
                     </template>
                 </el-table-column>
                 
-                <el-table-column label="操作" align="center" >
+                <el-table-column label="操作" align="center" width="160px">
                     <template #default="scope">
                         <el-button type="primary" v-if="scope.row.status === '未排课'" @click="handleEdit(scope.row)">编辑</el-button>
                         <el-button type="danger" v-if="scope.row.status === '未排课'" @click="handleDelete(scope.row.requestId)">删除</el-button>
@@ -68,6 +70,12 @@
                 </el-form-item>
                 <el-form-item label="结束周" prop="endWeek">
                     <el-input v-model.number="data.form.endWeek" />
+                </el-form-item>
+                <el-form-item label="星期" prop="day">
+                    <el-select v-model="data.form.day" placeholder="请选择星期" style="width: 300%;">
+                        <el-option v-for="item in data.days" :key="item.value" :label="item.label" 
+                            :value="item.value" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="节次" prop="session">
                     <el-select v-model="data.form.session" placeholder="请选择节次" style="width: 300%;">
@@ -155,6 +163,9 @@ const data = reactive({
                 trigger: 'blur'
             }
         ],
+        day: [
+            { required: true, message: '请选择星期', trigger: 'blur' }
+        ],
         session: [
             { required: true, message: '请选择节次', trigger: 'blur' }
         ],
@@ -223,6 +234,37 @@ const data = reactive({
             label: '网络'
         },
     ],
+    days: [
+        {
+            value: '星期一',
+            label: '星期一'
+        },
+        {
+            value: '星期二',
+            label: '星期二'
+        },
+        {
+            value: '星期三',
+            label: '星期三'
+        },
+        {
+            value: '星期四',
+            label: '星期四'
+        },
+        {
+            value: '星期五',
+            label: '星期五'
+        },
+        {
+            value: '星期六',
+            label: '星期六'
+        },
+        {
+            value: '星期日',
+            label: '星期日'
+        },
+    ],
+
 })
 
 const initialize = () => {
@@ -262,6 +304,7 @@ const reset = () => {
 const handleAdd = () => {
     data.form = {}
     data.formVisible = true
+    data.form.semesterId = JSON.parse(localStorage.getItem('semester') || '{}').semesterId
 }
 
 const handleEdit = (row) => {

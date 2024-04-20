@@ -19,7 +19,9 @@
                 <el-table-column label="学生人数" prop="studentCount" align="center" />
                 <el-table-column label="开始周" prop="startWeek" align="center" />
                 <el-table-column label="结束周" prop="endWeek" align="center" />
+                <el-table-column label="星期" prop="day" align="center" />
                 <el-table-column label="节次" prop="session" align="center" />
+                <el-table-column label="实验室" prop="labId" align="center" />
                 <el-table-column label="排课状态" prop="status" align="center" sortable>
                     <template #default="scope">
                         <el-tag type="success" v-if="scope.row.status === '已排课'">已排课</el-tag>
@@ -27,9 +29,9 @@
                     </template>
                 </el-table-column>
                 
-                <el-table-column label="操作" align="center" width="200%">
+                <el-table-column label="操作" align="center">
                     <template #default="scope">
-                        <el-button type="primary" @click="handleSchedule(scope.row)">排课</el-button>
+                        <el-button type="primary" v-if="scope.row.status === '未排课'" @click="handleSchedule(scope.row)">排课</el-button>
                         <el-button type="danger" v-if="scope.row.status === '已排课'" @click="handleDelete(scope.row)">撤销</el-button>
                     </template>
                 </el-table-column>
@@ -57,6 +59,9 @@
                 </el-form-item>
                 <el-form-item label="结束周" prop="endWeek">
                     <el-input v-model="data.currentRequest.endWeek" disabled />
+                </el-form-item>
+                <el-form-item label="星期" prop="day">
+                    <el-input v-model="data.currentRequest.day" disabled />
                 </el-form-item>
                 <el-form-item label="节次" prop="session">
                     <el-input v-model="data.currentRequest.session" disabled />
@@ -154,6 +159,19 @@ const reset = () => {
 
 const formRef = ref()
 
+const handleSchedule = (row) => {
+    data.currentRequest = JSON.parse(JSON.stringify(row))
+    data.formVisible = true
+    request.request({
+      url: '/lab/listByCategory/' + data.currentRequest.labCategory,
+      method: 'GET'
+    }).then(res => {
+        if (res.code === "200") {
+            data.labs = res.data
+        }
+    })
+}
+
 const save = () => {
   formRef.value.validate((valid) => {
     if (valid) {
@@ -165,61 +183,41 @@ const save = () => {
         data.form.courseName = data.currentRequest.courseName
         data.form.teacherId = data.currentRequest.teacherId
         data.form.studentClass = data.currentRequest.studentClass
-        if (data.currentRequest.status === '已排课') {
-            ElMessageBox.confirm('该课程已排课，若重新排课，原排课记录将被覆盖，您确定覆盖吗?', '确认', { type: 'warning' }).then(res => {
+        request.request({
+            url: '/schedule/save',
+            method: 'POST',
+            data: data.form
+        }).then(res => {
+            if (res.code === "200") {
+                data.currentRequest.status = '已排课'
+                data.currentRequest.labId = data.form.labId
                 request.request({
-                    url: '/schedule/removeByRequestId/' + data.currentRequest.requestId,
-                    method: 'DELETE',
+                    url: '/labScheduleRequest/updateById',
+                    method: 'PUT',
+                    data: data.currentRequest
                 }).then(res => {
                     if (res.code === "200") {
-                        schedule()
                         load()
+                        data.formVisible = false
+                        ElMessage.success("操作成功")
                     } else {
                         ElMessage.error(res.message)
                     }
                 })
-            }).catch(err => {
-                console.error(err)
-            })
-        } else {
-            schedule()
-        }
+            } else {
+                ElMessage.error(res.message)
+            }
+        })
     } else {
       ElMessage.error('请检查输入项')
     }
   })
 }
 
-const schedule = () => {
-    request.request({
-        url: '/schedule/save',
-        method: 'POST',
-        data: data.form
-    }).then(res => {
-        if (res.code === "200") {
-            data.currentRequest.status = '已排课'
-            request.request({
-                url: '/labScheduleRequest/updateById',
-                method: 'PUT',
-                data: data.currentRequest
-            }).then(res => {
-                if (res.code === "200") {
-                    load()
-                    data.formVisible = false
-                    ElMessage.success("操作成功")
-                } else {
-                    ElMessage.error(res.message)
-                }
-            })
-        } else {
-            ElMessage.error(res.message)
-        }
-    })
-}
-
 const handleDelete = (row) => {
     data.currentRequest = JSON.parse(JSON.stringify(row))
     data.currentRequest.status = '未排课'
+    data.currentRequest.labId = ''
     ElMessageBox.confirm('撤销后数据无法恢复，您确定撤销吗?', '撤销确认', { type: 'warning' }).then(res => {
         request.request({
             url: '/schedule/removeByRequestId/' + data.currentRequest.requestId,
@@ -245,7 +243,6 @@ const handleDelete = (row) => {
     }).catch(err => {
         console.error(err)
     })
-
 }
 
 const handleCurrentChange = () => {
@@ -257,17 +254,4 @@ const handleSizeChange = (size) => {
     load()
 }
   
-const handleSchedule = (row) => {
-    data.currentRequest = JSON.parse(JSON.stringify(row))
-    data.formVisible = true
-    request.request({
-      url: '/lab/listByCategory/' + data.currentRequest.labCategory,
-      method: 'GET'
-    }).then(res => {
-        if (res.code === "200") {
-            data.labs = res.data
-        }
-    })
-}
-
 </script>

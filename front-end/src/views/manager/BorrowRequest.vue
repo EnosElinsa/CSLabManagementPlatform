@@ -20,6 +20,7 @@
                 <el-table-column label="编号" prop="requestId" align="center" width=80% sortable />
                 <el-table-column label="学期" prop="semester" align="center" sortable />
                 <el-table-column label="周次" prop="week" align="center" sortable />
+                <el-table-column label="星期" prop="day" align="center" sortable />
                 <el-table-column label="节次" prop="session" align="center" sortable />
                 <el-table-column label="实验室编号" prop="labId" align="center" sortable />
                 <el-table-column label="申请理由" prop="reason" align="center" />
@@ -64,6 +65,12 @@
                 </el-form-item>
                 <el-form-item label="申请周次" prop="week">
                     <el-input v-model.number="data.form.week" />
+                </el-form-item>
+                <el-form-item label="申请星期" prop="day">
+                    <el-select v-model="data.form.day" placeholder="请选择节次" style="width: 300%;">
+                        <el-option v-for="item in data.days" :key="item.value" :label="item.label" 
+                            :value="item.value" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="申请节次" prop="session">
                     <el-select v-model="data.form.session" placeholder="请选择节次" style="width: 300%;">
@@ -167,7 +174,36 @@ const data = reactive({
             label: '第13-15节'
         },
     ],
-
+    days: [
+        {
+            value: '星期一',
+            label: '星期一'
+        },
+        {
+            value: '星期二',
+            label: '星期二'
+        },
+        {
+            value: '星期三',
+            label: '星期三'
+        },
+        {
+            value: '星期四',
+            label: '星期四'
+        },
+        {
+            value: '星期五',
+            label: '星期五'
+        },
+        {
+            value: '星期六',
+            label: '星期六'
+        },
+        {
+            value: '星期日',
+            label: '星期日'
+        },
+    ],
 })
 
 const initialize = () => {
@@ -220,6 +256,7 @@ const reset = () => {
 const handleAdd = () => {
     data.form = {}
     data.formVisible = true
+    data.form.semesterId = JSON.parse(localStorage.getItem('semester') || '{}').semesterId
 }
 
 const formRef = ref()

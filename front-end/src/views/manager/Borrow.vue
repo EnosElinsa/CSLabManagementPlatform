@@ -17,6 +17,7 @@
             <el-table-column label="专业" prop="major" align="center" sortable />
             <el-table-column label="班级" prop="studentClass" align="center" sortable />
             <el-table-column label="周次" prop="week" align="center" sortable />
+            <el-table-column label="星期" prop="day" align="center" sortable />
             <el-table-column label="节次" prop="session" align="center" sortable />
             <el-table-column label="实验室编号" prop="labId" align="center" sortable />
             <el-table-column label="申请理由" prop="reason" align="center" />
@@ -66,6 +67,9 @@
                 </el-form-item>
                 <el-form-item label="申请周次" prop="week">
                     <el-input v-model.number="data.form.week" disabled />
+                </el-form-item>
+                <el-form-item label="星期" prop="day">
+                    <el-input v-model="data.form.day" disabled />
                 </el-form-item>
                 <el-form-item label="申请节次" prop="session">
                     <el-select v-model="data.form.session"  style="width: 300%;" disabled />
