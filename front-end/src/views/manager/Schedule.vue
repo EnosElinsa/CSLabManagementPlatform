@@ -183,6 +183,7 @@ const save = () => {
         data.form.courseName = data.currentRequest.courseName
         data.form.teacherId = data.currentRequest.teacherId
         data.form.studentClass = data.currentRequest.studentClass
+        data.form.day = data.currentRequest.day
         request.request({
             url: '/schedule/save',
             method: 'POST',

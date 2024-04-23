@@ -153,28 +153,28 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
 
     private void addInfo(List<ScheduleVo> scheduleVos) {
         var semesterIds = scheduleVos.stream()
-                                    .map(ScheduleVo::getSemesterId)
-                                    .collect(Collectors.toSet());
+                                     .map(ScheduleVo::getSemesterId)
+                                     .collect(Collectors.toSet());
 
         var semesters = semesterMapper.selectBatchIds(semesterIds);
         var semesterMap = semesters.stream()
-                            .collect(Collectors.toMap(Semester::getSemesterId, Semester::getSemester));
+                                   .collect(Collectors.toMap(Semester::getSemesterId, Semester::getSemester));
 
         var teacherIds = scheduleVos.stream()
-                                   .map(ScheduleVo::getTeacherId)
-                                   .collect(Collectors.toSet());    
+                                    .map(ScheduleVo::getTeacherId)
+                                    .collect(Collectors.toSet());    
                                     
         var teachers = userMapper.selectBatchIds(teacherIds);
         var fullNameMap = teachers.stream()
                                   .collect(Collectors.toMap(User::getUserId, User::getFullName));
 
         var labIds = scheduleVos.stream()
-                               .map(ScheduleVo::getLabId)
-                               .collect(Collectors.toSet());
+                                .map(ScheduleVo::getLabId)
+                                .collect(Collectors.toSet());
 
         var labs = labMapper.selectBatchIds(labIds);
         var labNameMap = labs.stream()
-                         .collect(Collectors.toMap(Lab::getLabId, Lab::getName));
+                             .collect(Collectors.toMap(Lab::getLabId, Lab::getName));
 
         scheduleVos.forEach(vo -> {
             vo.setSemester(semesterMap.get(vo.getSemesterId()));
