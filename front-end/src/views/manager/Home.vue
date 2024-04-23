@@ -7,7 +7,7 @@
 
     <div class="card" style="margin-bottom: 10px">
       <el-table border stripe :data="data.fixedContent" :span-method="spanMethod">
-        <el-table-column prop="day" align="center" width="70%"/>
+        <el-table-column fixed prop="day" align="center" width="70%"/>
         <el-table-column label="实验室" prop="labName" align="center" width="145%" />
         <el-table-column label="机房" prop="labId" align="center" width="55%" />
   
@@ -503,100 +503,38 @@ const initialize = () => {
 initialize()
 
 const getCourse = (row, session) => {
-  const matchedSchedules = new Set();
-  for (let i = 0; i < data.records.length; i++) {
-    if (data.records[i].day === row.day && data.records[i].labId === row.labId && data.records[i].session === session) {
-      matchedSchedules.add(data.records[i]);
-    }
-  }
-  let display = ''; 
+  const matchedSchedules = data.records.filter(record => record.day === row.day && record.labId === row.labId && record.session === session);
+  let display = '';
   matchedSchedules.forEach(schedule => {
-    display += '课程: ' + schedule.courseName + '<br>' + '教师: ' + schedule.fullName + '<br>' + '班级: ' + schedule.studentClass 
-            + '<br>' + '周次: ' + schedule.startWeek + '-' + schedule.endWeek + '<br>';
+    display += `课程: ${schedule.courseName}<br>教师: ${schedule.fullName}<br>班级: ${schedule.studentClass}<br>周次: ${schedule.startWeek}-${schedule.endWeek}<br>`;
   });
   return display;
 }
 
 
-const spanMethod = ({row, column, rowIndex, columnIndex}) => {
+const spanMethod = ({ row, column, rowIndex, columnIndex }) => {
   if (columnIndex === 0 && rowIndex % 21 === 0) {
-    return {
-      rowspan: 21,
-      colspan: 1,
-    }
+    return { rowspan: 21, colspan: 1 };
   } else if (columnIndex === 1) {
-    if (rowIndex % 21 === 0) {
-      return {
-        rowspan: 9,
-        colspan: 1,
-      }
-    } else if (rowIndex % 21 === 9) {
-      return {
-        rowspan: 2,
-        colspan: 1,
-      }
-    } else if (rowIndex % 21 === 11) {
-      return {
-        rowspan: 6,
-        colspan: 1,
-      }
-    } else if (rowIndex % 21 === 17) {
-      return {
-        rowspan: 2,
-        colspan: 1,
-      }
-    } else if (rowIndex % 21 === 19) {
-      return {
-        rowspan: 2,
-        colspan: 1,
-      }
-    } else {
-      return {
-        rowspan: 0,
-        colspan: 0,
-      }
+    switch (rowIndex % 21) {
+      case 0:
+        return { rowspan: 9, colspan: 1 };
+      case 9:
+        return { rowspan: 2, colspan: 1 };
+      case 11:
+        return { rowspan: 6, colspan: 1 };
+      case 17:
+        return { rowspan: 2, colspan: 1 };
+      case 19:
+        return { rowspan: 2, colspan: 1 };
+      default:
+        return { rowspan: 0, colspan: 0 };
     }
-  } else if (columnIndex === 2) {
-    return {
-      rowspan: 1,
-      colspan: 1,
-    }
-  } else if (columnIndex === 3) {
-    return {
-      rowspan: 1,
-      colspan: 1,
-    }
-  } else if (columnIndex === 4) {
-    return {
-      rowspan: 1,
-      colspan: 1,
-    }
-  } else if (columnIndex === 5) {
-    return {
-      rowspan: 1,
-      colspan: 1,
-    }
-  } else if (columnIndex === 6) {
-    return {
-      rowspan: 1,
-      colspan: 1,
-    }
-  } else if (columnIndex === 7) {
-    return {
-      rowspan: 1,
-      colspan: 1,
-    }
-  } else if (columnIndex === 8) {
-    return {
-      rowspan: 1,
-      colspan: 1,
-    }
+  } else if (columnIndex >= 2 && columnIndex <= 8) {
+    return { rowspan: 1, colspan: 1 };
   } else {
-    return {
-      rowspan: 0,
-      colspan: 0,
-    }
+    return { rowspan: 0, colspan: 0 };
   }
-}
+};
 
 </script>
