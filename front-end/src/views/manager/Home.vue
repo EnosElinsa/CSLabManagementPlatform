@@ -6,7 +6,7 @@
     </div>
 
     <div class="card" style="margin-bottom: 10px">
-      <el-table border stripe :data="data.fixedContent" :span-method="spanMethod">
+      <el-table border :data="data.fixedContent" :span-method="spanMethod">
         <el-table-column fixed prop="day" align="center" width="70%"/>
         <el-table-column label="实验室" prop="labName" align="center" width="145%" />
         <el-table-column label="机房" prop="labId" align="center" width="55%" />
