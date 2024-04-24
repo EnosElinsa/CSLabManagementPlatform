@@ -34,9 +34,9 @@ public class ScheduleController {
     private IScheduleService scheduleService;
 
     @AuthAccess
-    @GetMapping("/list")
-    public Result list() {
-        return Result.success(scheduleService.listVos());
+    @GetMapping("/listBySemesterId/{semesterId}")
+    public Result list(@PathVariable Integer semesterId) {
+        return Result.success(scheduleService.listBySemesterId(semesterId));
     }
 
     @GetMapping("/page")

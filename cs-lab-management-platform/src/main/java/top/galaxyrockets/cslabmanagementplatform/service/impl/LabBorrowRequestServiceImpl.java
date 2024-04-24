@@ -1,5 +1,6 @@
 package top.galaxyrockets.cslabmanagementplatform.service.impl;
 
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import jakarta.annotation.Resource;
@@ -82,6 +83,12 @@ public class LabBorrowRequestServiceImpl extends ServiceImpl<LabBorrowRequestMap
             vo.setMajor(majorMap.get(vo.getStudentId()));
             vo.setStudentClass(studentClassMap.get(vo.getStudentId()));
         });
+    }
+
+    @Override
+    public boolean save(LabBorrowRequest request) {
+        request.setDate(LocalDate.now());
+        return super.save(request);
     }
 
 }

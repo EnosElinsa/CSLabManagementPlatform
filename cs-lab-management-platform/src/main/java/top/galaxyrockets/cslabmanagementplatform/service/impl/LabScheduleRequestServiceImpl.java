@@ -98,9 +98,9 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
 
     private boolean isConflicted(LabScheduleRequest request, boolean isUpdate) {
         var wrapper = Wrappers.lambdaQuery(LabScheduleRequest.class)
-                            .eq(LabScheduleRequest::getSemesterId, request.getSemesterId())
-                            .eq(LabScheduleRequest::getSession, request.getSession())
-                            .eq(LabScheduleRequest::getDay, request.getDay());
+                              .eq(LabScheduleRequest::getSemesterId, request.getSemesterId())
+                              .eq(LabScheduleRequest::getSession, request.getSession())
+                              .eq(LabScheduleRequest::getDay, request.getDay());
 
         var potentialConflictedrequests = list(wrapper);
         if (isUpdate) {
@@ -111,7 +111,7 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
         }
 
         for (var e : potentialConflictedrequests) {
-            if (isWeeksOverlap(request, e)) {
+            if (isWeeksOverlap(request, e) || isTeacherConflicted(request, e)) {
                 throw new ServiceException("排课冲突，请检查课表是否有冲突。冲突的课程: " + e.getCourseName() + ", " + 
                 e.getStudentClass() + ", 第" + e.getStartWeek() + "-" + e.getEndWeek() + "周, "
                 + e.getDay() + ", " + "第" + e.getSession() + "节");
@@ -126,5 +126,9 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
             return false;
         }
         return true;
+    }
+
+    private boolean isTeacherConflicted(LabScheduleRequest a, LabScheduleRequest b) {
+        return a.getTeacherId().equals(b.getTeacherId());
     }
 }

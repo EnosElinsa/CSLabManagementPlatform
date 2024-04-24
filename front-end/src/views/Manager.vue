@@ -8,8 +8,8 @@
         </div>
       </div>
 
-      <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end;">
-        <el-dropdown style="margin-right: 15px" placement="bottom">
+      <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end;" v-if="Object.keys(user).length !== 0">
+        <el-dropdown style="margin-right:15px" placement="bottom">
           <div style="display: flex; align-items: center; cursor: default;">
             <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="" style="width: 40px; height: 40px">
             <span style="margin-left: 5px">{{ user.fullName }}</span>

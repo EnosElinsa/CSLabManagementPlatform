@@ -119,7 +119,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         }
 
         for (var sameLabSchedule : sameLabSchedules) {
-            if (isWeeksOverlap(sameLabSchedule, schedule)) {
+            if (isWeeksOverlap(sameLabSchedule, schedule) || isTeacherConflicted(sameLabSchedule, schedule)) {
                 throw new ServiceException("排课冲突，请检查课表是否有冲突。冲突的课程: " + sameLabSchedule.getCourseName() + ", " + 
                   sameLabSchedule.getStudentClass() + ", 第" + sameLabSchedule.getStartWeek() + "-" + sameLabSchedule.getEndWeek() + "周, "
                   + sameLabSchedule.getDay() + ", " + "第" + sameLabSchedule.getSession() + "节");
@@ -136,11 +136,14 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         return true;
     }
 
+    private boolean isTeacherConflicted(Schedule a, Schedule b) {
+        return a.getTeacherId().equals(b.getTeacherId());
+    }
+
     @Override
-    public List<ScheduleVo> listVos() {
-        Integer currentSemesterId = semesterService.getCurrentSemester().getSemesterId();
+    public List<ScheduleVo> listBySemesterId(Integer semesterId) {
         var wrapper = Wrappers.lambdaQuery(Schedule.class)
-                              .eq(Schedule::getSemesterId, currentSemesterId);
+                              .eq(Schedule::getSemesterId, semesterId);
         var schedules = list(wrapper);
         var scheduleVos = schedules.stream().map(ScheduleVo::new).collect(Collectors.toList());
 

@@ -25,9 +25,10 @@ public interface IScheduleService extends IService<Schedule> {
     public IPage<ScheduleVo> page(Integer current, Integer size, ScheduleVo scheduleVo);
 
     /**
-     * List all schedule VOs.
-     * @return list of schedule VOs
+     * List all schedules by semester id.
+     * @param semesterId semester id
+     * @return list of schedule
      */
-    public List<ScheduleVo> listVos();
+    public List<ScheduleVo> listBySemesterId(Integer semesterId);
 
 }

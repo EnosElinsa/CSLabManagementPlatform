@@ -60,7 +60,7 @@
         <el-dialog title="排课申请" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
             <el-form :model="data.form" label-width="100px" style="padding-right: 50px" :rules="data.rules" ref="formRef">
                 <el-form-item label="学期" prop="semesterId">
-                    <el-select v-model="data.form.semesterId" placeholder="请选择学期" style="width: 300%;">
+                    <el-select v-model="data.form.semesterId" placeholder="请选择学期" style="width: 300%;" disabled>
                         <el-option v-for="item in data.semesters" :key="item.semesterId" :label="item.semester" 
                             :value="item.semesterId" />
                     </el-select>

@@ -2,7 +2,15 @@
   <div>
 
     <div class="card" style="line-height: 30px">
-      <div style="font-weight: bold; text-align: center; margin-top: 10px;"> {{ semester.semester }} 学期排课表 </div>
+      <el-select value-key="semester" v-model="data.selectedSemester" placeholder="请选择学期">
+          <el-option v-for="item in data.semesters" :key="item" :label="item.semester" :value="item"
+            @click="handleSemesterChange"></el-option>
+      </el-select>
+      <el-text style="margin-left: 10px; font-weight: bold;"> 实验室课程表查询 </el-text>
+    </div>
+
+    <div class="card" style="line-height: 30px">
+      <div style="font-weight: bold; text-align: center; margin-top: 10px;"> {{ data.selectedSemester.semester }} 学期排课表 </div>
     </div>
 
     <div class="card" style="margin-bottom: 10px">
@@ -50,15 +58,7 @@
 
 <script setup>
 import request from "@/utils/request";
-import router from '@/router'
 import {reactive} from "vue";
-
-const user = JSON.parse(localStorage.getItem('user') || '{}')
-const semester = JSON.parse(localStorage.getItem('semester') || '{}')
-if (Object.keys(user).length === 0) {
-  ElMessage.error('请先登录');
-  router.push("/login")
-}
 
 const data = reactive({
   fixedContent: [
@@ -491,13 +491,23 @@ const data = reactive({
   ],
 
   records: [],
-
+  semesters: [],
+  selectedSemester: {},
 })
   
-const initialize = () => {
-  request.get('/schedule/list').then(res => {
-    data.records = res.data
-  })
+const initialize = async () => {
+  try {
+    const currentSemesterResponse = await request.get('/semester/getCurrentSemester');
+    data.selectedSemester = currentSemesterResponse.data;
+
+    const semestersResponse = await request.get('/semester/list');
+    data.semesters = semestersResponse.data;
+
+    const scheduleResponse = await request.get('/schedule/listBySemesterId/' + data.selectedSemester.semesterId);
+    data.records = scheduleResponse.data;
+  } catch(error) {
+    console.log(error)
+  }
 }
 
 initialize()
@@ -536,5 +546,11 @@ const spanMethod = ({ row, column, rowIndex, columnIndex }) => {
     return { rowspan: 0, colspan: 0 };
   }
 };
+
+const handleSemesterChange = () => {
+  request.get('/schedule/listBySemesterId/' + data.selectedSemester.semesterId).then(res => {
+    data.records = res.data
+  })
+}
 
 </script>
