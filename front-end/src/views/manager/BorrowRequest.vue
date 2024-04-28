@@ -34,10 +34,9 @@
                     </template>
                 </el-table-column>
         
-
                 <el-table-column label="操作" align="center" width="160">
                     <template #default="scope">
-                        <el-button type="primary" v-if="scope.row.status!='使用完毕'" @click="handleEdit(scope.row)">编辑</el-button>
+                        <el-button type="primary" v-if="scope.row.status==='未审核' || scope.row.status==='通过'" @click="handleEdit(scope.row)">编辑</el-button>
                         <el-button type="danger"  @click="handleDelete(scope.row.requestId)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -63,32 +62,32 @@
                             :value="item.semesterId" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="申请周次" prop="week" v-if="data.form.status!='通过'">
+                <el-form-item label="申请周次" prop="week" v-if="data.form.status==='未审核'">
                     <el-input v-model.number="data.form.week" />
                 </el-form-item>
-                <el-form-item label="申请星期" prop="day" v-if="data.form.status!='通过'">
+                <el-form-item label="申请星期" prop="day" v-if="data.form.status==='未审核'">
                     <el-select v-model="data.form.day" placeholder="请选择节次" style="width: 300%;">
                         <el-option v-for="item in data.days" :key="item.value" :label="item.label" 
                             :value="item.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="申请节次" prop="session" v-if="data.form.status!='通过'">
+                <el-form-item label="申请节次" prop="session" v-if="data.form.status==='未审核'">
                     <el-select v-model="data.form.session" placeholder="请选择节次" style="width: 300%;">
                         <el-option v-for="item in data.sessions" :key="item.value" :label="item.label" 
                             :value="item.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="实验室编号" prop="labId" v-if="data.form.status!='通过'">
+                <el-form-item label="实验室编号" prop="labId" v-if="data.form.status==='未审核'">
                     <el-select v-model="data.form.labId" placeholder="请选择实验室编号" style="width: 300%;">
                         <el-option v-for="item in data.labs" :key="item.labId" :label="item.labId + ' - ' + item.name + ' - ' 
                             + item.category +  ' - ' + ' 设备数：' + item.equipmentCount" :value="item.labId" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="申请理由" prop="reason" v-if="data.form.status!='通过'">
+                <el-form-item label="申请理由" prop="reason" v-if="data.form.status==='未审核'">
                     <el-input v-model="data.form.reason" autocomplete="off" minlength="1" maxlength="128" show-word-limit 
                         type="textarea" autosize/>
                 </el-form-item>
-                <el-form-item label="状态" prop="status" v-if="data.form.status==='通过'">
+                <el-form-item label="状态" prop="status" v-if="data.form.status==='通过' || data.form.status==='使用完毕'">
                     <el-select v-model="data.form.status" placeholder="请选择状态" style="width: 300%;">
                         <el-option label="使用完毕（选择后无法恢复）" value="使用完毕"></el-option>
                     </el-select>
