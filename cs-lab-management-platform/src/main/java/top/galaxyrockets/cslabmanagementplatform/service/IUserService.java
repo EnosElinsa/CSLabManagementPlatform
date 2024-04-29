@@ -1,10 +1,11 @@
 package top.galaxyrockets.cslabmanagementplatform.service;
 
-import top.galaxyrockets.cslabmanagementplatform.entity.User;
+import java.util.List;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import top.galaxyrockets.cslabmanagementplatform.entity.User;
 /**
  * @author EnosElinsa
  * @since 2024/04/13
@@ -42,5 +43,11 @@ public interface IUserService extends IService<User> {
      * @return the user with the given username, or null if not found
      */
     public User getByUsername(String username);
+
+    /**
+     * List all technicians.
+     * @return a list of all technicians
+     */
+    public List<User> listTechnicians();
     
 }

@@ -51,7 +51,7 @@
             :total="data.total" />
         </div>
 
-        <el-dialog title="学期信息" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
+        <el-dialog title="申请信息" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
             <el-form :model="data.form" label-width="100px" style="padding-right: 50px" :rules="data.rules" ref="formRef">
                 <el-form-item label="申请学期" prop="semesterId">
                     <el-select v-model="data.form.semesterId" style="width: 300%;" disabled />

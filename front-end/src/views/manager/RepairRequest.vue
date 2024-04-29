@@ -33,9 +33,8 @@
                 <el-table-column label="操作" align="center" >
                     <template #default="scope">
                         <el-button type="primary" v-if="scope.row.status === '未维修'" @click="handleEdit(scope.row)">编辑</el-button>
-                        <el-button type="danger" v-if="scope.row.status === '未维修'" @click="handleDelete(scope.row.requestId)">删除</el-button>
+                        <el-button type="danger" v-if="scope.row.status === '未维修' || scope.row.status === '已维修'" @click="handleDelete(scope.row.requestId)">删除</el-button>
                         <el-text type="success" v-if="scope.row.status === '维修中'">（维修中）</el-text>
-                        <el-text type="success" v-if="scope.row.status === '已维修'">（已维修）</el-text>
                     </template>
                 </el-table-column>
             </el-table>

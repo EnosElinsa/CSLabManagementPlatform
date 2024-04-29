@@ -72,6 +72,10 @@
               <el-icon><Monitor /></el-icon>
               <span>实验室管理</span>
             </template>
+            <el-menu-item index="/lab">
+              <el-icon><OfficeBuilding /></el-icon>
+              <span>实验室信息管理</span>
+            </el-menu-item>
             <el-menu-item index="/schedule">
               <el-icon><DataBoard /></el-icon>
               <span>实验课排课</span>

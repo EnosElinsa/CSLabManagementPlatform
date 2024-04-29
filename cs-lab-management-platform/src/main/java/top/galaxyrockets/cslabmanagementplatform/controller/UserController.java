@@ -48,6 +48,11 @@ public class UserController {
         return Result.success(userService.pageStudents(current, size, user));
     }
 
+    @GetMapping("/listTechnicians")
+    public Result listTechnicians() {
+        return Result.success(userService.listTechnicians());
+    }
+
     @PostMapping("/save")
     public Result save(@RequestBody User user) {
         if (userService.save(user)) {

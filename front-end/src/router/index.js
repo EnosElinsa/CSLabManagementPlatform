@@ -9,7 +9,8 @@ const router = createRouter({
         { path: 'home', name: 'Home', component: () => import('@/views/manager/Home.vue') },
         { path: 'person', name: 'Person', component: () => import('@/views/manager/Person.vue') },
         { path: 'password', name: 'Password', component: () => import('@/views/manager/Password.vue') },
-        { path:'semester', name: 'Semester', component: () => import('@/views/manager/Semester.vue') },
+        { path: 'semester', name: 'Semester', component: () => import('@/views/manager/Semester.vue') },
+        { path: 'lab', name: 'Lab', component: () => import('@/views/manager/Lab.vue') },
         { path: 'technician', name: 'Technician', component: () => import('@/views/manager/user/Technician.vue') },
         { path: 'teacher', name: 'Teacher', component: () => import('@/views/manager/user/Teacher.vue') },
         { path: 'student', name: 'Student', component: () => import('@/views/manager/user/Student.vue') },
@@ -29,7 +30,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const adminPaths= ['/semester', '/technician', '/teacher', '/student', '/schedule', '/borrow']
+  const adminPaths= ['/semester', '/lab', '/technician', '/teacher', '/student', '/schedule', '/borrow']
   const teacherPaths=['/scheduleRequest', 'repairRequest']
   const technicianPaths=['/repair']
   const studentPaths=['/borrowRequest']

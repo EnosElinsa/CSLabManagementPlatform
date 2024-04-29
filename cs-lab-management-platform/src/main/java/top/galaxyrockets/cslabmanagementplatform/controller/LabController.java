@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
-import top.galaxyrockets.cslabmanagementplatform.common.Result;
+import top.galaxyrockets.cslabmanagementplatform.vo.LabVo;
 import top.galaxyrockets.cslabmanagementplatform.entity.Lab;
+import top.galaxyrockets.cslabmanagementplatform.common.Result;
 import top.galaxyrockets.cslabmanagementplatform.service.ILabService;
 
 
@@ -31,6 +33,13 @@ public class LabController {
     @Resource
     private ILabService labService;
 
+    @GetMapping("/page")
+    public Result page(@RequestParam Integer current,
+                       @RequestParam Integer size,
+                        LabVo labVo) {
+        return Result.success(labService.page(current, size, labVo));
+    }
+    
     @GetMapping("/list")
     public Result list() {
         return Result.success(labService.list());

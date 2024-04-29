@@ -116,7 +116,16 @@ const data = reactive({
     ],
     weekCount: [
       { required: true, message: '请输入周数', trigger: 'blur' },
-      { type: 'number', message: '周数必须为正整数', trigger: 'blur' }
+      { type: 'number', message: '周数必须为正整数', trigger: 'blur' },
+      {
+        validator: (rule, value, callback) => { 
+            if (value <= 0) { 
+                callback(new Error('人数必须为大于0的正整数')); 
+            } else { 
+                callback(); 
+            } 
+        } 
+      }
     ],
   },
 

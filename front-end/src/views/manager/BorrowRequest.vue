@@ -62,28 +62,28 @@
                             :value="item.semesterId" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="申请周次" prop="week" v-if="data.form.status==='未审核'">
+                <el-form-item label="申请周次" prop="week" v-if="data.form.status==='未审核' || data.form.status===undefined">
                     <el-input v-model.number="data.form.week" />
                 </el-form-item>
-                <el-form-item label="申请星期" prop="day" v-if="data.form.status==='未审核'">
+                <el-form-item label="申请星期" prop="day" v-if="data.form.status==='未审核' || data.form.status===undefined">
                     <el-select v-model="data.form.day" placeholder="请选择节次" style="width: 300%;">
                         <el-option v-for="item in data.days" :key="item.value" :label="item.label" 
                             :value="item.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="申请节次" prop="session" v-if="data.form.status==='未审核'">
+                <el-form-item label="申请节次" prop="session" v-if="data.form.status==='未审核' || data.form.status===undefined">
                     <el-select v-model="data.form.session" placeholder="请选择节次" style="width: 300%;">
                         <el-option v-for="item in data.sessions" :key="item.value" :label="item.label" 
                             :value="item.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="实验室编号" prop="labId" v-if="data.form.status==='未审核'">
+                <el-form-item label="实验室编号" prop="labId" v-if="data.form.status==='未审核' || data.form.status===undefined">
                     <el-select v-model="data.form.labId" placeholder="请选择实验室编号" style="width: 300%;">
                         <el-option v-for="item in data.labs" :key="item.labId" :label="item.labId + ' - ' + item.name + ' - ' 
                             + item.category +  ' - ' + ' 设备数：' + item.equipmentCount" :value="item.labId" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="申请理由" prop="reason" v-if="data.form.status==='未审核'">
+                <el-form-item label="申请理由" prop="reason" v-if="data.form.status==='未审核' || data.form.status===undefined">
                     <el-input v-model="data.form.reason" autocomplete="off" minlength="1" maxlength="128" show-word-limit 
                         type="textarea" autosize/>
                 </el-form-item>
@@ -130,7 +130,16 @@ const data = reactive({
         ],
         week: [
             { required: true, message: '请输入申请周次', trigger: 'blur' },
-            { type: 'number', message: '申请周次必须为正整数', trigger: 'blur' }
+            { type: 'number', message: '申请周次必须为正整数', trigger: 'blur' },
+            {
+                validator: (rule, value, callback) => { 
+                    if (value <= 0) { 
+                        callback(new Error('人数必须为大于0的正整数')); 
+                    } else { 
+                        callback(); 
+                    } 
+                } 
+            }
         ],
         session: [
             { required: true, message: '请选择申请节次', trigger: 'blur' },

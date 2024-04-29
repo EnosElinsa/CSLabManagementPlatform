@@ -7,10 +7,13 @@ import top.galaxyrockets.cslabmanagementplatform.service.IUserService;
 import top.galaxyrockets.cslabmanagementplatform.util.TokenUtil;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import cn.hutool.core.util.StrUtil;
+
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -86,6 +89,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ServiceException("相同的工号或学号已存在");
         }
         return super.save(user);
+    }
+
+    @Override
+    public List<User> listTechnicians() {
+        var wrapper = Wrappers.lambdaQuery(User.class).eq(User::getRole, "实验员");
+        return list(wrapper);
     }
 
 }

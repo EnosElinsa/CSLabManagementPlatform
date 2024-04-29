@@ -18,8 +18,8 @@
             <el-table stripe :data="data.records" :header-cell-style="{background:'aliceblue'}" @selection-change="handleSelectionChange" table-layout="auto">
                 <el-table-column type="selection" width="55" align="center" />
 
-                <el-table-column label="编号" prop="requestId" align="center" sortable />
-                <el-table-column label="学期" prop="semester" align="center" sortable />
+                <el-table-column label="编号" prop="requestId" align="center" width="80%" sortable />
+                <el-table-column label="学期" prop="semester" align="center" />
                 <el-table-column label="课程名" prop="courseName" align="center" />
                 <el-table-column label="实验室类型" prop="labCategory" align="center" />
                 <el-table-column label="学生班级" prop="studentClass" align="center" />
@@ -29,7 +29,7 @@
                 <el-table-column label="星期" prop="day" align="center" />
                 <el-table-column label="节次" prop="session" align="center"  />
                 <el-table-column label="实验室" prop="labId" align="center" />
-                <el-table-column label="排课状态" prop="status" align="center">
+                <el-table-column label="排课状态" prop="status" align="center" sortable>
                     <template #default="scope">
                         <el-tag type="success" v-if="scope.row.status === '已排课'">已排课</el-tag>
                         <el-tag type="warning" v-if="scope.row.status === '未排课'">未排课</el-tag>
@@ -254,14 +254,6 @@ const data = reactive({
         {
             value: '星期五',
             label: '星期五'
-        },
-        {
-            value: '星期六',
-            label: '星期六'
-        },
-        {
-            value: '星期日',
-            label: '星期日'
         },
     ],
 
