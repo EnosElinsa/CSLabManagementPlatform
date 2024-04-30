@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
-import top.galaxyrockets.cslabmanagementplatform.vo.LabVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.Lab;
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Lab;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.LabVo;
 import top.galaxyrockets.cslabmanagementplatform.service.ILabService;
 
 

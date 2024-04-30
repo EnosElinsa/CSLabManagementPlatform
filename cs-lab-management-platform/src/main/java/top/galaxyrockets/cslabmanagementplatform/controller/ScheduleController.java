@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
-import top.galaxyrockets.cslabmanagementplatform.vo.ScheduleVo;
 import top.galaxyrockets.cslabmanagementplatform.common.AuthAccess;
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
-import top.galaxyrockets.cslabmanagementplatform.entity.Schedule;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Schedule;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.ScheduleVo;
 import top.galaxyrockets.cslabmanagementplatform.service.IScheduleService;
 
 /**

@@ -1,8 +1,8 @@
 package top.galaxyrockets.cslabmanagementplatform.mapper;
 
-import top.galaxyrockets.cslabmanagementplatform.entity.LabBorrowRequest;
-
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import top.galaxyrockets.cslabmanagementplatform.domain.po.LabBorrowRequest;
 
 /**
  * @author EnosElinsa

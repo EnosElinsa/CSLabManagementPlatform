@@ -4,11 +4,11 @@ import org.springframework.stereotype.Service;
 
 import cn.hutool.core.util.StrUtil;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
-import top.galaxyrockets.cslabmanagementplatform.entity.Semester;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Semester;
 import top.galaxyrockets.cslabmanagementplatform.mapper.SemesterMapper;
 import top.galaxyrockets.cslabmanagementplatform.service.ISemesterService;
 
@@ -21,16 +21,15 @@ public class SemesterServiceImpl extends ServiceImpl<SemesterMapper, Semester> i
 
     @Override
     public Page<Semester> page(Integer current, Integer size, Semester semester) {
-        var wrapper = new LambdaQueryWrapper<Semester>();
+        var wrapper = Wrappers.lambdaQuery(Semester.class);
         wrapper.orderByDesc(Semester::getSemesterId)
                .like(StrUtil.isNotBlank(semester.getSemester()), Semester::getSemester, semester.getSemester());
-        return page(new Page<>(current, size), wrapper);
+        return page(Page.of(current, size), wrapper);
     }
 
     @Override
     public Semester getCurrentSemester() {
-        var wrapper = new LambdaQueryWrapper<Semester>();
-        wrapper.eq(Semester::getIsCurrentSemester, true);
+        var wrapper = Wrappers.lambdaQuery(Semester.class).eq(Semester::getIsCurrentSemester, true);
         return getOne(wrapper);
     }
 
@@ -40,8 +39,7 @@ public class SemesterServiceImpl extends ServiceImpl<SemesterMapper, Semester> i
         if (semester == null) {
             return false;
         }
-        var wrapper = new LambdaQueryWrapper<Semester>();
-        wrapper.eq(Semester::getIsCurrentSemester, true);
+        var wrapper = Wrappers.lambdaQuery(Semester.class).eq(Semester::getIsCurrentSemester, true);
         var currentSemester = getOne(wrapper);
         if (currentSemester == null) {
             return false;

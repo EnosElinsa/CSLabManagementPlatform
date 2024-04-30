@@ -1,4 +1,4 @@
-package top.galaxyrockets.cslabmanagementplatform.entity;
+package top.galaxyrockets.cslabmanagementplatform.domain.po;
 
 import java.io.Serializable;
 
@@ -47,5 +47,10 @@ public class Semester implements Serializable {
      * Whether a semester is the current semester.
      */
     private Boolean isCurrentSemester;
+
+    /**
+     * The logic delete field.
+     */
+    private Boolean deleted;
 
 }

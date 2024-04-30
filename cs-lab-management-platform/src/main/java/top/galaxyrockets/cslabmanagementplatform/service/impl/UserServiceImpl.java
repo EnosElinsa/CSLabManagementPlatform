@@ -1,21 +1,20 @@
 package top.galaxyrockets.cslabmanagementplatform.service.impl;
 
-import top.galaxyrockets.cslabmanagementplatform.entity.User;
-import top.galaxyrockets.cslabmanagementplatform.exception.ServiceException;
-import top.galaxyrockets.cslabmanagementplatform.mapper.UserMapper;
-import top.galaxyrockets.cslabmanagementplatform.service.IUserService;
-import top.galaxyrockets.cslabmanagementplatform.util.TokenUtil;
+import java.util.List;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import org.springframework.stereotype.Service;
+
+import cn.hutool.core.util.StrUtil;
+
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import cn.hutool.core.util.StrUtil;
-
-import java.util.List;
-
-import org.springframework.stereotype.Service;
+import top.galaxyrockets.cslabmanagementplatform.util.TokenUtil;
+import top.galaxyrockets.cslabmanagementplatform.mapper.UserMapper;
+import top.galaxyrockets.cslabmanagementplatform.service.IUserService;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.User;
+import top.galaxyrockets.cslabmanagementplatform.exception.ServiceException;
 
 /**
  * @author EnosElinsa
@@ -44,35 +43,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public User getByUsername(String username) {
-        return getOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
+        return getOne(Wrappers.lambdaQuery(User.class).eq(User::getUsername, username));
     }
 
     @Override
     public Page<User> page(Integer current, Integer size, User user) {
-        var wrapper = new LambdaQueryWrapper<User>();
+        var wrapper = Wrappers.lambdaQuery(User.class);
         wrapper.orderByDesc(User::getUserId)
                .eq(StrUtil.isNotBlank(user.getRole()), User::getRole, user.getRole())
                .like(StrUtil.isNotBlank(user.getUsername()), User::getUsername, user.getUsername())
                .like(StrUtil.isNotBlank(user.getFullName()), User::getFullName, user.getFullName())
                .like(StrUtil.isNotBlank(user.getTitle()), User::getTitle, user.getTitle());
-        return page(new Page<>(current, size), wrapper);
+        return page(Page.of(current, size), wrapper);
     }   
 
     @Override
     public Page<User> pageStudents(Integer current, Integer size, User user) {
-        var wrapper = new LambdaQueryWrapper<User>();
+        var wrapper = Wrappers.lambdaQuery(User.class);
         wrapper.orderByDesc(User::getUserId)
                .eq(StrUtil.isNotBlank(user.getRole()), User::getRole, user.getRole())
                .like(StrUtil.isNotBlank(user.getUsername()), User::getUsername, user.getUsername())
                .like(StrUtil.isNotBlank(user.getFullName()), User::getFullName, user.getFullName())
                .like(StrUtil.isNotBlank(user.getMajor()), User::getMajor, user.getMajor())
                .like(StrUtil.isNotBlank(user.getStudentClass()), User::getStudentClass, user.getStudentClass());
-        return page(new Page<>(current, size), wrapper);
+        return page(Page.of(current, size), wrapper);
     }
 
     @Override
     public boolean updateById(User user) {
-        var wrapper = new LambdaQueryWrapper<User>();
+        var wrapper = Wrappers.lambdaQuery(User.class);
         wrapper.eq(User::getUsername, user.getUsername());
         User userDb = getOne(wrapper);
         if (userDb != null && !userDb.getUserId().equals(user.getUserId())) {
@@ -83,7 +82,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public boolean save(User user) {
-        var wrapper = new LambdaQueryWrapper<User>();
+        var wrapper = Wrappers.lambdaQuery(User.class);
         wrapper.eq(User::getUsername, user.getUsername());
         if (getOne(wrapper) != null) {
             throw new ServiceException("相同的工号或学号已存在");

@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import top.galaxyrockets.cslabmanagementplatform.entity.User;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.User;
 import top.galaxyrockets.cslabmanagementplatform.mapper.UserMapper;
 
 /**

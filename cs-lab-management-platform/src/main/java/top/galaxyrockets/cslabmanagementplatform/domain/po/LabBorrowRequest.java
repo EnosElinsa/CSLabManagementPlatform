@@ -1,4 +1,4 @@
-package top.galaxyrockets.cslabmanagementplatform.entity;
+package top.galaxyrockets.cslabmanagementplatform.domain.po;
 
 import java.time.LocalDate;
 import java.io.Serializable;
@@ -81,5 +81,10 @@ public class LabBorrowRequest implements Serializable {
      * The status of the lab borrowing request, including '未审核', '通过', '驳回' and '使用完毕'.
      */
     private String status;
+
+    /**
+     * The logic delete field.
+     */
+    private Boolean deleted;
 
 }

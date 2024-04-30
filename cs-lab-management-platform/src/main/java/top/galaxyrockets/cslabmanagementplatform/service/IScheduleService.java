@@ -5,8 +5,8 @@ import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import top.galaxyrockets.cslabmanagementplatform.vo.ScheduleVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.Schedule;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Schedule;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.ScheduleVo;
 
 
 /**

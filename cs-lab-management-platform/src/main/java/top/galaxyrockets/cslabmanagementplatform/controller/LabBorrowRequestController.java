@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
-import top.galaxyrockets.cslabmanagementplatform.vo.LabBorrowRequestVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.LabBorrowRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.LabBorrowRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.LabBorrowRequestVo;
 import top.galaxyrockets.cslabmanagementplatform.service.ILabBorrowRequestService;
 
 /**

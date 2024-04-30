@@ -1,4 +1,4 @@
-package top.galaxyrockets.cslabmanagementplatform.entity;
+package top.galaxyrockets.cslabmanagementplatform.domain.po;
 
 import java.io.Serializable;
 
@@ -81,5 +81,10 @@ public class Schedule implements Serializable {
      * The class of the students in the course with the maximum length of 32 characters.
      */
     private String studentClass;
+
+    /**
+     * The logic delete field.
+     */
+    private Boolean deleted;
 
 }

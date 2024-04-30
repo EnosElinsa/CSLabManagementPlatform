@@ -2,24 +2,20 @@ package top.galaxyrockets.cslabmanagementplatform.service.impl;
 
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import cn.hutool.core.util.StrUtil;
-
-import top.galaxyrockets.cslabmanagementplatform.entity.User;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.LabScheduleRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Semester;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.User;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.LabScheduleRequestVo;
 import top.galaxyrockets.cslabmanagementplatform.exception.ServiceException;
-import top.galaxyrockets.cslabmanagementplatform.entity.Semester;
-import top.galaxyrockets.cslabmanagementplatform.entity.LabScheduleRequest;
-import top.galaxyrockets.cslabmanagementplatform.vo.LabScheduleRequestVo;
-import top.galaxyrockets.cslabmanagementplatform.mapper.UserMapper;
-import top.galaxyrockets.cslabmanagementplatform.mapper.SemesterMapper;
 import top.galaxyrockets.cslabmanagementplatform.mapper.LabScheduleRequestMapper;
 import top.galaxyrockets.cslabmanagementplatform.service.ILabScheduleRequestService;
 
@@ -29,12 +25,6 @@ import top.galaxyrockets.cslabmanagementplatform.service.ILabScheduleRequestServ
  */
 @Service
 public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleRequestMapper, LabScheduleRequest> implements ILabScheduleRequestService {
-
-    @Resource
-    private SemesterMapper semesterMapper;
-
-    @Resource
-    private UserMapper userMapper;
 
     @Override
     public IPage<LabScheduleRequestVo> page(Integer current, Integer size, LabScheduleRequestVo request) {
@@ -47,7 +37,7 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
                                   request.getLabCategory())
                               .like(StrUtil.isNotBlank(request.getStudentClass()), LabScheduleRequest::getStudentClass, 
                                   request.getStudentClass());
-        IPage<LabScheduleRequest> requestPage = page(new Page<>(current, size), wrapper);
+        IPage<LabScheduleRequest> requestPage = page(Page.of(current, size), wrapper);
         IPage<LabScheduleRequestVo> requestVoPage = requestPage.convert(LabScheduleRequestVo::new);
         
         if (requestVoPage.getRecords().size() > 0) {
@@ -62,7 +52,7 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
                                        .stream()
                                        .map(LabScheduleRequestVo::getSemesterId)
                                        .collect(Collectors.toSet());
-        var semesters = semesterMapper.selectBatchIds(semesterIds);
+        var semesters = Db.lambdaQuery(Semester.class).in(Semester::getSemesterId, semesterIds).list();
         var semesterMap = semesters.stream()
                                    .collect(Collectors.toMap(Semester::getSemesterId, Semester::getSemester));
 
@@ -70,7 +60,7 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
                                       .stream()
                                       .map(LabScheduleRequestVo::getTeacherId)
                                       .collect(Collectors.toSet());
-        var teachers = userMapper.selectBatchIds(teacherIds);
+        var teachers = Db.lambdaQuery(User.class).in(User::getUserId, teacherIds).list();
         var fullNameMap = teachers.stream()
                                   .collect(Collectors.toMap(User::getUserId, User::getFullName));
 
@@ -100,7 +90,8 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
         var wrapper = Wrappers.lambdaQuery(LabScheduleRequest.class)
                               .eq(LabScheduleRequest::getSemesterId, request.getSemesterId())
                               .eq(LabScheduleRequest::getSession, request.getSession())
-                              .eq(LabScheduleRequest::getDay, request.getDay());
+                              .eq(LabScheduleRequest::getDay, request.getDay())
+                              .eq(LabScheduleRequest::getTeacherId, request.getTeacherId());
 
         var potentialConflictedrequests = list(wrapper);
         if (isUpdate) {
@@ -111,8 +102,8 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
         }
 
         for (var e : potentialConflictedrequests) {
-            if (isWeeksOverlap(request, e) || isTeacherConflicted(request, e)) {
-                throw new ServiceException("排课冲突，请检查课表是否有冲突。冲突的课程: " + e.getCourseName() + ", " + 
+            if (isWeeksOverlap(request, e)) {
+                throw new ServiceException("排课请求冲突，冲突的课程: " + e.getCourseName() + ", " + 
                 e.getStudentClass() + ", 第" + e.getStartWeek() + "-" + e.getEndWeek() + "周, "
                 + e.getDay() + ", " + "第" + e.getSession() + "节");
             }
@@ -128,7 +119,4 @@ public class LabScheduleRequestServiceImpl extends ServiceImpl<LabScheduleReques
         return true;
     }
 
-    private boolean isTeacherConflicted(LabScheduleRequest a, LabScheduleRequest b) {
-        return a.getTeacherId().equals(b.getTeacherId());
-    }
 }

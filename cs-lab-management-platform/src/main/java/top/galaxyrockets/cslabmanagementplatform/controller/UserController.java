@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import top.galaxyrockets.cslabmanagementplatform.entity.User;
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.User;
 import top.galaxyrockets.cslabmanagementplatform.common.AuthAccess;
 import top.galaxyrockets.cslabmanagementplatform.service.IUserService;
 

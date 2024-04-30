@@ -134,12 +134,15 @@ const data = reactive({
             {
                 validator: (rule, value, callback) => { 
                     if (value <= 0) { 
-                        callback(new Error('人数必须为大于0的正整数')); 
+                        callback(new Error('申请周次必须为正整数')); 
                     } else { 
                         callback(); 
                     } 
                 } 
             }
+        ],
+        day: [
+            { required: true, message: '请选择申请星期', trigger: 'blur' },
         ],
         session: [
             { required: true, message: '请选择申请节次', trigger: 'blur' },

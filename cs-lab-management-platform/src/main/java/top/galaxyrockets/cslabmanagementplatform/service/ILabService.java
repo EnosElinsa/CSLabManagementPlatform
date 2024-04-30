@@ -3,8 +3,8 @@ package top.galaxyrockets.cslabmanagementplatform.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import top.galaxyrockets.cslabmanagementplatform.vo.LabVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.Lab;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Lab;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.LabVo;
 
 
 /**

@@ -1,16 +1,14 @@
-package top.galaxyrockets.cslabmanagementplatform.vo;
+package top.galaxyrockets.cslabmanagementplatform.domain.vo;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.io.Serializable;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.LabBorrowRequest;
 import lombok.AllArgsConstructor;
-
-import top.galaxyrockets.cslabmanagementplatform.entity.LabBorrowRequest;
 
 /**
  * @author EnosElinsa

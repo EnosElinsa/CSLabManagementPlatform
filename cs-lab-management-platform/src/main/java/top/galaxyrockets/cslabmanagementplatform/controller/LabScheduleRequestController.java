@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
-import top.galaxyrockets.cslabmanagementplatform.entity.LabScheduleRequest;
-import top.galaxyrockets.cslabmanagementplatform.vo.LabScheduleRequestVo;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.LabScheduleRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.LabScheduleRequestVo;
 import top.galaxyrockets.cslabmanagementplatform.service.ILabScheduleRequestService;
 
 /**

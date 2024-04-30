@@ -13,10 +13,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import cn.hutool.core.util.StrUtil;
-
-import top.galaxyrockets.cslabmanagementplatform.entity.User;
 import top.galaxyrockets.cslabmanagementplatform.mapper.UserMapper;
 import top.galaxyrockets.cslabmanagementplatform.common.AuthAccess;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.User;
 import top.galaxyrockets.cslabmanagementplatform.exception.ServiceException;
 
 /**

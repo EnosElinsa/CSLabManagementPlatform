@@ -1,10 +1,10 @@
-package top.galaxyrockets.cslabmanagementplatform.vo;
+package top.galaxyrockets.cslabmanagementplatform.domain.vo;
 
 import java.io.Serializable;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import top.galaxyrockets.cslabmanagementplatform.entity.Lab;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Lab;
 import lombok.AllArgsConstructor;
 
 /**
@@ -21,7 +21,7 @@ public class LabVo implements Serializable {
     public LabVo(Lab lab) {
         this.labId = lab.getLabId();
         this.name = lab.getName();
-        this.category = lab.getCategory();
+        this.category = lab.getCategory().getCategoryName();
         this.equipmentCount = lab.getEquipmentCount();
         this.technicianId = lab.getTechnicianId();
     }

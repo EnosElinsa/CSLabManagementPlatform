@@ -1,8 +1,8 @@
 package top.galaxyrockets.cslabmanagementplatform.mapper;
 
-import top.galaxyrockets.cslabmanagementplatform.entity.Lab;
-
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Lab;
 
 /**
  * @author EnosElinsa

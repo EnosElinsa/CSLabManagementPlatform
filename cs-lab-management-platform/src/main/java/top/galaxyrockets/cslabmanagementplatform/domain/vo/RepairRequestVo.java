@@ -1,4 +1,4 @@
-package top.galaxyrockets.cslabmanagementplatform.vo;
+package top.galaxyrockets.cslabmanagementplatform.domain.vo;
 
 import java.time.LocalDate;
 import java.io.Serializable;
@@ -7,9 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.RepairRequest;
 import lombok.AllArgsConstructor;
-
-import top.galaxyrockets.cslabmanagementplatform.entity.RepairRequest;
 
 /**
  * @author EnosElinsa

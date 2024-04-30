@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
-import top.galaxyrockets.cslabmanagementplatform.vo.RepairRequestVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.RepairRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.RepairRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.RepairRequestVo;
 import top.galaxyrockets.cslabmanagementplatform.service.IRepairRequestService;
 
 /**

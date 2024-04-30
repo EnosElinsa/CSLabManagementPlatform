@@ -1,12 +1,11 @@
-package top.galaxyrockets.cslabmanagementplatform.vo;
+package top.galaxyrockets.cslabmanagementplatform.domain.vo;
 
 import java.io.Serializable;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Schedule;
 import lombok.AllArgsConstructor;
-
-import top.galaxyrockets.cslabmanagementplatform.entity.Schedule;
 
 /**
  * @author EnosElinsa

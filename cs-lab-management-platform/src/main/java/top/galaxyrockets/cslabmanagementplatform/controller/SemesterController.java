@@ -18,7 +18,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
 import top.galaxyrockets.cslabmanagementplatform.common.AuthAccess;
 import top.galaxyrockets.cslabmanagementplatform.common.Result;
-import top.galaxyrockets.cslabmanagementplatform.entity.Semester;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Semester;
 import top.galaxyrockets.cslabmanagementplatform.service.ISemesterService;
 
 /**

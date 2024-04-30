@@ -1,4 +1,4 @@
-package top.galaxyrockets.cslabmanagementplatform.entity;
+package top.galaxyrockets.cslabmanagementplatform.domain.po;
 
 import java.io.Serializable;
 
@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+import top.galaxyrockets.cslabmanagementplatform.enums.LabCategory;
 
 /**
  * <p>
@@ -39,7 +41,7 @@ public class Lab implements Serializable {
     /**
      * The category of the lab, including '软件', '硬件' and '网络'. 
      */
-    private String category;
+    private LabCategory category;
 
     /**
      * The count of the equipment in the lab.

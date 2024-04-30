@@ -1,4 +1,4 @@
-package top.galaxyrockets.cslabmanagementplatform.entity;
+package top.galaxyrockets.cslabmanagementplatform.domain.po;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * <p>
- *  A person in a particular role  in the system.
+ *  A person in a particular role in the system.
  * </p>
  *
  * @author EnosElinsa
@@ -88,5 +88,10 @@ public class User implements Serializable {
      */
     @TableField(exist = false)
     private String token;
+
+    /**
+     * The logic delete field.
+     */
+    private Boolean deleted;
 
 }

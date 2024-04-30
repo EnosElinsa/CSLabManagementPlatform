@@ -3,8 +3,8 @@ package top.galaxyrockets.cslabmanagementplatform.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import top.galaxyrockets.cslabmanagementplatform.vo.LabBorrowRequestVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.LabBorrowRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.LabBorrowRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.LabBorrowRequestVo;
 
 /**
  * @author EnosElinsa

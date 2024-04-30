@@ -1,4 +1,4 @@
-package top.galaxyrockets.cslabmanagementplatform.entity;
+package top.galaxyrockets.cslabmanagementplatform.domain.po;
 
 import java.io.Serializable;
 
@@ -92,5 +92,10 @@ public class LabScheduleRequest implements Serializable {
      * The status of the lab schedule request, including '已排课' and '未排课'.
      */
     private String status;
+
+    /**
+     * The logic delete field.
+     */
+    private Boolean deleted;
 
 }

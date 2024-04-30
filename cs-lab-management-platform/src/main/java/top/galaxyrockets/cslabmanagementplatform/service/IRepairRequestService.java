@@ -3,8 +3,8 @@ package top.galaxyrockets.cslabmanagementplatform.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import top.galaxyrockets.cslabmanagementplatform.vo.RepairRequestVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.RepairRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.RepairRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.RepairRequestVo;
 
 /**
  * @author EnosElinsa

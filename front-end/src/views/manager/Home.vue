@@ -1,19 +1,16 @@
 <template>
   <div>
 
-    <div class="card" style="line-height: 30px">
+    <div class="card" style="line-height: 30px; margin-bottom: 10px">
       <el-select value-key="semester" v-model="data.selectedSemester" placeholder="请选择学期">
           <el-option v-for="item in data.semesters" :key="item" :label="item.semester" :value="item"
             @click="handleSemesterChange"></el-option>
       </el-select>
-      <el-text style="margin-left: 10px; font-weight: bold;"> 实验室课程表查询 </el-text>
-    </div>
-
-    <div class="card" style="line-height: 30px">
-      <div style="font-weight: bold; text-align: center; margin-top: 10px;"> {{ data.selectedSemester.semester }} 学期排课表 </div>
+      <el-text style="margin-left: 10px; font-weight: bold; "> 实验室课程表查询 </el-text>
     </div>
 
     <div class="card" style="margin-bottom: 10px">
+      <div style="font-weight: bold; font-size: large;text-align: center; margin-bottom: 10px; margin-top: 5px;"> {{ data.selectedSemester.semester }} 学期排课表 </div>
       <el-table border :data="data.fixedContent" :span-method="spanMethod">
         <el-table-column fixed prop="day" align="center" width="70%"/>
         <el-table-column label="实验室" prop="labName" align="center" width="145%" />

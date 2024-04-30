@@ -1,4 +1,4 @@
-package top.galaxyrockets.cslabmanagementplatform.entity;
+package top.galaxyrockets.cslabmanagementplatform.domain.po;
 
 import java.time.LocalDate;
 import java.io.Serializable;
@@ -57,5 +57,10 @@ public class RepairRequest implements Serializable {
      * The status of the equipment repair request, including '已维修', '未维修' and '维修中'.
      */
     private String status;
+
+    /**
+     * The logic delete field.
+     */
+    private Boolean deleted;
 
 }

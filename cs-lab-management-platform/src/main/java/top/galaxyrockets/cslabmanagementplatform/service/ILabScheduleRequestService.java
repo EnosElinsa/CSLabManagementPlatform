@@ -1,10 +1,10 @@
 package top.galaxyrockets.cslabmanagementplatform.service;
 
-import top.galaxyrockets.cslabmanagementplatform.vo.LabScheduleRequestVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.LabScheduleRequest;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import top.galaxyrockets.cslabmanagementplatform.domain.po.LabScheduleRequest;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.LabScheduleRequestVo;
 
 /**
  * @author EnosElinsa

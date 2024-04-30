@@ -3,30 +3,23 @@ package top.galaxyrockets.cslabmanagementplatform.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import cn.hutool.core.util.StrUtil;
-
-import top.galaxyrockets.cslabmanagementplatform.vo.ScheduleVo;
-import top.galaxyrockets.cslabmanagementplatform.entity.Lab;
-import top.galaxyrockets.cslabmanagementplatform.entity.User;
-import top.galaxyrockets.cslabmanagementplatform.entity.Schedule;
-import top.galaxyrockets.cslabmanagementplatform.entity.Semester;
-import top.galaxyrockets.cslabmanagementplatform.mapper.LabMapper;
-import top.galaxyrockets.cslabmanagementplatform.mapper.UserMapper;
-import top.galaxyrockets.cslabmanagementplatform.mapper.SemesterMapper;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Lab;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Schedule;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.Semester;
+import top.galaxyrockets.cslabmanagementplatform.domain.po.User;
+import top.galaxyrockets.cslabmanagementplatform.domain.vo.ScheduleVo;
 import top.galaxyrockets.cslabmanagementplatform.mapper.ScheduleMapper;
 import top.galaxyrockets.cslabmanagementplatform.service.IScheduleService;
-import top.galaxyrockets.cslabmanagementplatform.service.ISemesterService;
 import top.galaxyrockets.cslabmanagementplatform.exception.ServiceException;
-
 
 /**
  * @author EnosElinsa
@@ -34,18 +27,6 @@ import top.galaxyrockets.cslabmanagementplatform.exception.ServiceException;
  */
 @Service
 public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> implements IScheduleService {
-
-    @Resource
-    private LabMapper labMapper;
-
-    @Resource
-    private UserMapper userMapper;
-
-    @Resource
-    private SemesterMapper semesterMapper;
-
-    @Resource
-    private ISemesterService semesterService;
 
     @Override
     public IPage<ScheduleVo> page(Integer current, Integer size, ScheduleVo scheduleVo) {
@@ -57,7 +38,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
                                 scheduleVo.getCourseName())
                               .like(StrUtil.isNotBlank(scheduleVo.getStudentClass()), Schedule::getStudentClass, 
                                 scheduleVo.getStudentClass());
-        IPage<Schedule> schedulePage = page(new Page<>(current, size), wrapper);
+        IPage<Schedule> schedulePage = page(Page.of(current, size), wrapper);
         IPage<ScheduleVo> scheduleVoPage = schedulePage.convert(ScheduleVo::new);
         
         if (scheduleVoPage.getRecords().size() > 0) {
@@ -72,7 +53,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
                                         .stream()
                                         .map(ScheduleVo::getSemesterId)
                                         .collect(Collectors.toSet());
-        var semesters = semesterMapper.selectBatchIds(semesterIds);
+        var semesters = Db.lambdaQuery(Semester.class).in(Semester::getSemesterId, semesterIds).list();
         var semesterMap = semesters.stream()
                             .collect(Collectors.toMap(Semester::getSemesterId, Semester::getSemester));
 
@@ -80,7 +61,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
                                       .stream()
                                       .map(ScheduleVo::getTeacherId)
                                       .collect(Collectors.toSet());
-        var teachers = userMapper.selectBatchIds(teacherIds);
+        var teachers = Db.lambdaQuery(User.class).in(User::getUserId, teacherIds).list();
         var fullNameMap = teachers.stream()
                                   .collect(Collectors.toMap(User::getUserId, User::getFullName));
 
@@ -88,7 +69,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
                                    .stream()
                                    .map(ScheduleVo::getLabId)
                                    .collect(Collectors.toSet());
-        var labs = labMapper.selectBatchIds(labIds);
+        var labs = Db.lambdaQuery(Lab.class).in(Lab::getLabId, labIds).list();
         var labNameMap = labs.stream()
                          .collect(Collectors.toMap(Lab::getLabId, Lab::getName));
 
@@ -119,7 +100,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         }
 
         for (var sameLabSchedule : sameLabSchedules) {
-            if (isWeeksOverlap(sameLabSchedule, schedule) || isTeacherConflicted(sameLabSchedule, schedule)) {
+            if (isWeeksOverlap(sameLabSchedule, schedule)) {
                 throw new ServiceException("排课冲突，请检查课表是否有冲突。冲突的课程: " + sameLabSchedule.getCourseName() + ", " + 
                   sameLabSchedule.getStudentClass() + ", 第" + sameLabSchedule.getStartWeek() + "-" + sameLabSchedule.getEndWeek() + "周, "
                   + sameLabSchedule.getDay() + ", " + "第" + sameLabSchedule.getSession() + "节");
@@ -134,10 +115,6 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
             return false;
         }
         return true;
-    }
-
-    private boolean isTeacherConflicted(Schedule a, Schedule b) {
-        return a.getTeacherId().equals(b.getTeacherId());
     }
 
     @Override
@@ -159,7 +136,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
                                      .map(ScheduleVo::getSemesterId)
                                      .collect(Collectors.toSet());
 
-        var semesters = semesterMapper.selectBatchIds(semesterIds);
+        var semesters = Db.lambdaQuery(Semester.class).in(Semester::getSemesterId, semesterIds).list();
         var semesterMap = semesters.stream()
                                    .collect(Collectors.toMap(Semester::getSemesterId, Semester::getSemester));
 
@@ -167,7 +144,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
                                     .map(ScheduleVo::getTeacherId)
                                     .collect(Collectors.toSet());    
                                     
-        var teachers = userMapper.selectBatchIds(teacherIds);
+        var teachers = Db.lambdaQuery(User.class).in(User::getUserId, teacherIds).list();
         var fullNameMap = teachers.stream()
                                   .collect(Collectors.toMap(User::getUserId, User::getFullName));
 
@@ -175,7 +152,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
                                 .map(ScheduleVo::getLabId)
                                 .collect(Collectors.toSet());
 
-        var labs = labMapper.selectBatchIds(labIds);
+        var labs = Db.lambdaQuery(Lab.class).in(Lab::getLabId, labIds).list();
         var labNameMap = labs.stream()
                              .collect(Collectors.toMap(Lab::getLabId, Lab::getName));
 
